@@ -4,6 +4,11 @@
         <title>Timmie - The simplest stopwatch</title>
         <link rel="stylesheet" type="text/css" href="style.css">
     </head>
+    <style>
+        #stopwatch {
+    font-size: 48px;
+}
+    </style>
     <body>
         <h1>Timmie</h1>
         <br>
@@ -12,7 +17,35 @@
         <h4>Timmie currently doesn't supports stopwatch with time splitting or simply Stopwatch with Laps. Looking forward for adding these. Stay tuned;)</h4>
         <div id="stopwatch">00:00:00</div>
         <button id="start-stop-button">Start</button>
-        <script> src="script.js" </script>
+        <script>
+            var startTime, intervalId;
+var stopwatchElement = document.getElementById('stopwatch')
+var startStopButton = document.getElementById('start-stop-button')
+
+startStopButton.addEventListener('click', function() {
+    if (startStopButton.innerHTML === 'Start') {
+        startStopButton.innerHTML = 'Stop';
+        startTime = new Date().getTime();
+        intervalId = setInterval(updateStopwatch, 10);
+    } else {
+        startStopButton.innerHTML = 'Start';
+        clearInterval(intervalId);
+    }
+})
+
+function updateStopwatch() {
+    var currentTime = new Date().getTime();
+    var elapsedTime = currentTime - startTime;
+    var minutes = Math.floor(elapsedTime / (1000*60));
+    var seconds = Math.floor((elapsedTime % (1000*60)) / 1000);
+    var milliseconds = Math.floor((elapsedTime % 1000) / 10);
+    stopwatchElement.innerHTML = formatTime(minutes) + ':' + formatTime(seconds) + ':' + formatTime(milliseconds);
+}
+
+function formatTime(time) {
+    return time.toString().padStart(2, '0');
+}
+        </script>
         <hr>
         <h4>Copyright. All rights reserved. Həmid (GitHub: EnderCrafter220). This web app is licensed under MIT License. Check Licensing for more info.</h4>
         <br>
